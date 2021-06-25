@@ -1,11 +1,11 @@
 {
     "manifest_version": 2,
-    "name": "Check add-on compatibility with next ESR.",
+    "name": "Check add-on compatibility with next ESR, list info for sync.",
     "version": "1.1",
     "author": "opto (Klaus Buecher)",
     "applications": {
         "gecko": {
-            "id": "addoncompat.check@opto.one",
+            "id": "addon-info-sync-compatibility@opto.one",
             "strict_min_version": "78.0",
             "strict_max_version": "91.0"
         }
@@ -14,12 +14,16 @@
         "scripts": ["background.js"]
     },
     "browser_action": {
-        "default_title": "Check add-on updates and compatibility in next ESR",
-        "default_label": ""
-    },
+        "default_title": "Check add-on updates and compatibility in next ESR\n\nMore info in Tools->Addons / settings page of this addon",
+        "default_label": "",
+        "default_icon": "skin/puzzle-piece32.png"    },
 
 
-     	
+    "icons": {
+        "32": "skin/puzzle-piece32.png"
+      },
+    
+             
 
 	"options_ui": {
 		"page": "./popup/tt/ttt/options.html",
@@ -30,6 +34,6 @@
 
       
     "permissions": [
-        "management", "activeTab", "tabs", "tabHide", "clipboardWrite"
+        "management", "activeTab", "tabs", "tabHide", "clipboardWrite" , "messagesModify", "notifications"
     ]
 }

@@ -1,3 +1,12 @@
+/*
+
+
+
+Attribution:
+icon by <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
+*/
+
 async function checkAddons() {	
 	let iOK = 0, iInCompatible = 0, iDisabledIncompatible = 0, sIncompatibleNames = [], sDisabledIncompatibleNames = [];
 	messenger.browserAction.setBadgeText({text:"…"});
@@ -18,11 +27,18 @@ async function checkAddons() {
 		let rv = await fetch(`https://addons.thunderbird.net/api/v4/addons/addon/${addon.id}/versions/`);
 		let response = await rv.json();
 		console.log("raw response", response);
+		var comps = [];
 		if (
 			Array.isArray(response.results) &&
 			response.results.length > 0
 		) {
-			let data = response.results[0];
+			for (let result of response.results) {
+				comps.push(result.compatibility.thunderbird.max);
+	
+	
+			}
+			console.log("comps",comps);
+				let data = response.results[0];
 			console.log(response.results[0].url);
 			let info = {
 				name: addon.name,
@@ -66,14 +82,31 @@ async function checkAddons() {
 
 	}
 	else {
-	messenger.browserAction.setBadgeText({text: iInCompatible + "/" + iDisabledIncompatible + "✗"});
+	messenger.browserAction.setBadgeText({text: iInCompatible + "/" + iDisabledIncompatible});
 	messenger.browserAction.setBadgeBackgroundColor({color:"red"});
 	}
 	let resTitle = "Check add-on updates and compatibility in next ESR" + "\n\n"
 	resTitle+= "Active addons, incompatible: " + sIncompatibleNames.toString() + "\n\n";
-	resTitle= resTitle +"Deactivated addons, incompatible: " + sDisabledIncompatibleNames;
+	resTitle= resTitle +"Deactivated addons, incompatible: " + sDisabledIncompatibleNames +
+	  "\n\nMore info at Tools->Addons / option page of this addon";
 	console.log("nmes", sIncompatibleNames, sDisabledIncompatibleNames);
 	messenger.browserAction.setTitle({title:resTitle});
+
+//	messenger.runtime.openOptionsPage();
+
+
+
+
+var addonNotification = "addon-notification"
+	messenger.notifications.create(addonNotification, {
+		"type": "basic",
+		"iconUrl": browser.runtime.getURL("/skin/puzzle-piece32.png"),
+		"title": "Addon compatibility",
+		"message": "More info at Tools->Addons / option page of this addon"
+
+	  });
+
+
 ;
 
 
@@ -96,4 +129,46 @@ iInCompatible++;
 }
 
 messenger.browserAction.onClicked.addListener(checkAddons);
+
+/*
+async function handleMessage(request, sender, sendResponse) {
+	console.log(`content script sent a message: ${request.content}`);
+	let results  = await messenger.management.getAll();
+	return Promise.resolve({response: JSON.stringify(results)});//"response from background script"});
+  }
+  
+  browser.runtime.onMessage.addListener(handleMessage);
+
+*/
+messenger.runtime.onMessage.addListener(
+	async function (request, sender, sendResponse) {
+		//chrome.extension.getBackgroundPage().console.log('resp.type');
+		console.log(sender.tab ?
+				"from a content script:" + sender.tab.url :
+				"from the extension");
+		if (request.task == "openURL") {//(request.greeting == "hello") {
+			messenger.tabs.create({url: request.greeting });
+			sendResponse({farewell: "goodbye"});
+		}
+		if (request.task == "getAddons") {//(request.greeting == "hello") {
+//			let results  = await messenger.management.getAll();
+//			console.log("raw addons", results);
+//					  sendResponse({farewell: "results"});
+	let results  = await messenger.management.getAll();
+	console.log("res", results);
+	let ids=[] ;
+	for (var i = 0; i < results.length; i++) {
+		ids.push(results[i]["id"]);
+	  };
+console.log("ids", ids, JSON.stringify(ids));
+	return Promise.resolve({response: JSON.stringify(ids)});//"response from background script"});
+		}
+	});
+
+messenger.messageDisplayScripts.register({
+    js: [{ file: "mDisplay.js" }]
+    //,
+    //css: [{ file: "/src/message-content-styles.css" }],
+  });
+
 //window.addEventListener("load", checkAddons);

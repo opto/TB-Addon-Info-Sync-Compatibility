@@ -18,7 +18,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, user-scalable=no">
-	<title>Text Insert</title>
+	<title>Addon Info</title>
 	<link rel="stylesheet" type="text/css" href="../../media/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="../../media/css/keyTable.dataTables.css">
 <!--
@@ -30,15 +30,14 @@
 	
 	</style>
 
-<!--   Jodit-->
 
 
 	<script src="../lib/jquery.js"></script>
 	<script type="text/javascript" language="javascript" src="../../media/js/jquery.dataTables.js"></script>
-	<script type="text/javascript" language="javascript" src="../../media/js/dataTables.keyTable.js"></script>
-
+	
 	<!--
 
+<script type="text/javascript" language="javascript" src="../../media/js/dataTables.keyTable.js"></script>
 
 
 		<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
@@ -54,54 +53,61 @@
 
 <script type="text/javascript" language="javascript"  src= "data.js">  	</script>
 
+mozilla-version-comparator.js
+<script type="text/javascript" language="javascript" class="init" src= "mozilla-version-comparator.js">
 
+</script>
 
 	-->
 	<script type="text/javascript" language="javascript" class="init" src= "options.js">
 
 	</script>
+
+
 </head>
 <body class="dt-example">
-	<div class="container">
+	<div class="container" id = "addoncompat.check_210624">
 		<section>
-			<h2>Add-on updates and compatibility in next ESR (TB 91)</h2>
+			<h2>			<img src = "/skin/puzzle-piece32.png" height = "32"  width = "32">
+				Add-on info, addon-sync, updates and compatibility in next ESR (TB 91)</h2>
 
 			<div >
-				<p>First, you type the shortcut text. Example:  br </p>
+				<p>The table may need time for loading.</p>
 		
-				<p>Next, you press the insertion command: ctrl-d (both keys at the same time)</p>
-				<p>Result: 'br' is replaced by 'best regards'. Now, you can define and use text blocks/boilerplates.</p>
-				<p>'Dear #c best regards' will additionally set the cursor position at the synonym #c.</p>
+				<p>It shows the installed addons and their description, as well as compatibility with the next ESR, TB 91.</p>
+				<p>If a * is given, the addon is either compatible with TB 91, or the addon author did not specify any max version of Thunderbird.</p>
+				<p>If the max version of the addon on ATN is more recent than your installed version, then it is either incompatible with your version of Thunderbird, 
+					or its installation might be blocked. I personally had Kaspersky blocking addon updates.</p>
+				<p>You can print the table or copy it to clipboard. If you email it to yourself, this or another Thunderbird installation can indicate those addons that are not installed.
+				<br> For this to work, this addon must be installed in the other Thunderbird installation.</p>
 
 			
 				<div   >
 					<input type="button" id = "table2Clipboard"  value = "copy to clipboard"  class = "center-block btn_bck" />
 
-					<input type="button" id = "table2Email"  value = "add to / sync by email"  class = "center-block btn_bck" />
-					<input type="button" id = "update"  value = "update"  class = "center-block btn_bck" />
-
+					<input type="button" id = "table2Email"  value = "add to new email/ sync by email"  class = "center-block btn_bck" />
+<!--					<input type="button" id = "table2Download"  value = "download addon list"  class = "center-block btn_bck" />
+-->
+					<input type="button" id = "print"  value = "print"  class = "center-block btn_bck" />
+<!-- 					<input type="button" id = "update"  value = "update"  class = "center-block btn_bck" />
+-->
 				</div>
-				<div   class = "center-block">
-					<label for = "shortcutInp">Shortcut</label>
-					<input type="text" id = "shortcutInp" autofocus = "true" />
-					<label for = "repInp">Replacement (can be multiline)</label>
-					<textarea type="text" id = "repInp" rows = "1"  cols = "65" replacement = "test to insert"> </textarea>
-				
-					<input type="button" id = "addInp" value = "Add" class = " btn_bck" />
-				</div>	
-			</div>
+						</div>
 			<br>
 
 			<div class="demo-html"></div>			
 			<table id="example1"  class="display" style="width:100%" >
+				Loading ....
 			</table>
 			</div>
-    	</section>
+		</section>
+	<br><br><br>	
+		<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
     </div>
-	
+<!--	
 	<script src="assets/prism.js"></script>
 	<script src="assets/app.js"></script>
-
+-->
 
 </body>
 </html>
