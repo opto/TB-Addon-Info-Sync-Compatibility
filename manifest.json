@@ -1,6 +1,6 @@
 {
     "manifest_version": 2,
-    "name": "Check add-on compatibility with next ESR, list info for sync.",
+    "name": "Addon-Info/Sync/Compatibility",
     "version": "1.1",
     "author": "opto (Klaus Buecher)",
     "applications": {

@@ -1,4 +1,4 @@
-/*
+      /*
  * License:  see License.txt
 
  * Code  for TB 78 or later: Creative Commons (CC BY-ND 4.0):
@@ -8,45 +8,6 @@
  * Contributors:  see Changes.txt
  */
 
-
- .pull-center {
-  margin-bottom: 15px;
-}
-
- .marginb {
-  display: inline-block !important;
-  }
- 
-  .center-block-b {
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
-    margin-bottom: 15px;
-  }
-  
-  .center-block {
-  display: block;
-  margin-right: auto;
-  margin-left: auto;
-  margin-bottom: 25px;
-}
-
- .center {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
-.pull-left {
-  float: left !important;
-}
-
-.pull-right {
-  float: right !important;
-}
 
  ul.actions {
   

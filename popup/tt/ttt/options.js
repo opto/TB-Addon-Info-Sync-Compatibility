@@ -51,12 +51,17 @@ async function sendMail(event) {
   console.log("JSON", JSON.stringify(table.data().toArray()));
   clip.forEach( (el) => { console.log("el", JSON.stringify(el) + "\n\n"); 
   textStr += JSON.stringify(el) + "\n\n";//.toString() + "\n");
+/*
   htmlStr += ("<br>" + el.url + " (click to display in browser)<br><br><br>" + JSON.stringify(el) + 
      "\n\n<input type = 'button'  dataatn = '" + el.url + "' addonid = '" + el.id  +"' value = 'add " + el.id + " to Thunderbird in Tools-> Addons' /><br>");
      console.log("html", htmlStr); //.toString() + "\n");
+*/
+     htmlStr += ("<input type = 'button'  dataatn = '" + el.url + "' addonid = '" + el.id  +"' value = 'add " + el.id + " to Thunderbird in Tools-> Addons' /><br>");
+     console.log("html", htmlStr); //.toString() + "\n");
 });
 
-
+let htmlTable = document.getElementById("example1").outerHTML;
+htmlStr += htmlTable;
 
 //messenger.compose.beginNew({body:textStr, subject:"addon-details in Thunderbird"});
 messenger.compose.beginNew({body:htmlStr, isPlainText: false, subject:" Addons installed in Thunderbird - details and sync proposal"});
@@ -87,6 +92,27 @@ messenger.compose.beginNew({body:htmlStr, isPlainText: false, subject:" Addons i
     //    console.log("table");
     //    console.log(table.data().toArray());
         //dataSet = table.data().toArray();
+document.designMode = true;
+document.contentEditable = true;
+/*console.log("doc",document);
+document.execCommand("strikeThrough");
+document.execCommand("selectAll");
+
+let tab = document.getElementById("example1");
+tab.select();
+document.execCommand("copy");
+*/
+///*
+//clipboard unformatted (table with tab)
+var range = document.createRange();
+range.selectNode(document.getElementById("example1"));
+window.getSelection().removeAllRanges(); // clear current selection
+window.getSelection().addRange(range); // to select text
+document.execCommand("copy");
+window.getSelection().removeAllRanges();// to deselect
+//clipboard unformatted end
+//*/
+        /*
         let clip = []; //table.data().toArray();
         clip = table.data().toArray();
     //    console.log(bgrPage.dataSet);
@@ -96,7 +122,7 @@ messenger.compose.beginNew({body:htmlStr, isPlainText: false, subject:" Addons i
   });
   
   navigator.clipboard.writeText(textStr);
-   
+*/   
     //    let prefJson = JSON.stringify(table.data().toArray());
     //    preferences.setPref("dataSet",prefJson );
     //browser.storage.set("dataSet",prefJson);

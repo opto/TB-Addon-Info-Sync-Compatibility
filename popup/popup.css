@@ -22,25 +22,9 @@
   font-weight: bold;
 }
 
-.fit-picture {
-  width: 250px;
-}
-
-
-
 #innerwrapper {
   padding-left: 10%;
   padding-right: 10%;
-}
-
-li {
-
-}
-
-ul, li {
-  margin-bottom:0px;
-  padding-bottom:0;
-
 }
 
 ul.actions {
@@ -90,10 +74,6 @@ body p, body li {
   background-color: white;
   color: rgb(20,15,05);
   font-size: 12pt;
-  margin-top:10px;
-    padding:0;
-  
-  
 }
 
 .versionnumber {
@@ -133,7 +113,7 @@ h1, h2, h3, h4 {
 }
 
 h1 {
-  font-size: 18pt;
+  font-size: 20pt;
 }
 
 h2 {

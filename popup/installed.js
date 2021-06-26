@@ -9,21 +9,23 @@
  */
 
 
-
-
 addEventListener("click", async (event) => {
-	if (event.target.id.startsWith("donate")) {
+	if (event.target.id.startsWith("donate1")) {
 
-		messenger.windows.openDefaultBrowser("https://www.paypal.com/donate?hosted_button_id=SQY8UR8RB4BM8");
-	}
-});  
+		messenger.windows.openDefaultBrowser("https://www.paypal.com/donate?hosted_button_id=T738XXQGHNR2G");
+	  };
+	  if (event.target.id.startsWith("donate")) {
+	
+		messenger.windows.openDefaultBrowser("https://www.paypal.com/donate?hosted_button_id=T738XXQGHNR2G");
+	  };
+	});
 
 addEventListener("load", async (event) => {
-	//debugger;
-	let text = document.body.innerHTML, 
-	htmltext = text.replace(/{addon}/g, await browser.runtime.getManifest().name );    
+	//d;
+	let text = document.body.innerHTML,
+		htmltext = text.replace(/{addon}/g, await browser.runtime.getManifest().name);
 	htmltext2 = htmltext.replace(/{version}/g, await browser.runtime.getManifest().version);
 	let browserInfo = await browser.runtime.getBrowserInfo()
-  htmltext = htmltext2.replace(/{appver}/g, browserInfo.version);
+	htmltext = htmltext2.replace(/{appver}/g, browserInfo.version);
 	document.body.innerHTML = htmltext;
 });

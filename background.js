@@ -1,11 +1,59 @@
 /*
+* License:  see License.txt
+
+* Code  for TB 78 or later: Creative Commons (CC BY-ND 4.0):
+*      Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0) 
+ 
+* Copyright: Klaus Buecher/opto 2021
+* Contributors:  see Changes.txt
+*/
+
+
+
+/*
 
 
 
 Attribution:
 icon by <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
+
+todo
+-license
+-logs weg
+-editoren weg, code weg, sync weg
+-beautify
+-button ids
+-button beispiel
+
 */
+
+
+
+// landing windows.
+messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
+	// if (temporary) return; // skip during development
+	 switch (reason) {
+	   case "install":
+		 {
+		   const url = messenger.runtime.getURL("popup/installed.html");
+		   //await browser.tabs.create({ url });
+		   await messenger.windows.create({ url, type: "popup", height: 780, width: 1190, });
+		 }
+		 break;
+		 case "update":
+		   {
+			 const url = messenger.runtime.getURL("popup/update.html");
+			 //await browser.tabs.create({ url });
+			 await messenger.windows.create({ url, type: "popup", height: 780, width: 1190, });
+		   }
+		   break;
+		 // see below
+	 }
+   });
+   /**/
+	 
+
 
 async function checkAddons() {	
 	let iOK = 0, iInCompatible = 0, iDisabledIncompatible = 0, sIncompatibleNames = [], sDisabledIncompatibleNames = [];
@@ -111,35 +159,12 @@ var addonNotification = "addon-notification"
 
 
 
-	/*
-	if (results.every(info => info.compatibility == "*" ||
-	         parseInt(info.compatibility.split(".").shift()) >= 91)) {
-		messenger.browserAction.setBadgeText({text:"✓"});
-		messenger.browserAction.setBadgeBackgroundColor({color:"green"});
-		iOK++;		
-	} else {
-//		if (info.enabled)else iDisabledIncompatible++;
-iInCompatible++; 
-		messenger.browserAction.setBadgeText({text:iInCompatible+"✗"});
-		messenger.browserAction.setBadgeBackgroundColor({color:"red"});
-	};
-	
-*/	
 	
 }
 
 messenger.browserAction.onClicked.addListener(checkAddons);
 
-/*
-async function handleMessage(request, sender, sendResponse) {
-	console.log(`content script sent a message: ${request.content}`);
-	let results  = await messenger.management.getAll();
-	return Promise.resolve({response: JSON.stringify(results)});//"response from background script"});
-  }
-  
-  browser.runtime.onMessage.addListener(handleMessage);
 
-*/
 messenger.runtime.onMessage.addListener(
 	async function (request, sender, sendResponse) {
 		//chrome.extension.getBackgroundPage().console.log('resp.type');

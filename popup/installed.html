@@ -1,5 +1,5 @@
 <!--
-/*
+       /*
  * License:  see License.txt
 
  * Code  for TB 78 or later: Creative Commons (CC BY-ND 4.0):
@@ -10,87 +10,114 @@
  */
 
 
--->
+     -->
 
 
 
 <!DOCTYPE HTML>
 <html>
-  <head>
+
+<head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
-  <title>Welcome to Text Insert/Text Blocks</title>
+  <title>Welcome to Glodaquilla-NG: Global Search/Indexing Enhancements/ On Disk Status for IMAP</title>
   <link rel="stylesheet" href="popup.css" type="text/css">
   <script type="application/javascript" src="installed.js"></script>
 
-  </head>
-  <body>
-    <div id="innerwrapper">
-      <h1>Successfully installed {addon} </h1>
-      <p></p>
-      <p></p>
-          <p>Thank you for installing {addon}. You are now running <b class="versionnumber">version {version}</b> on Thunderbird {appver}.</p>
-  
-      
-      
-   
-      <h2>Features:</h2>    
-      <h2> </h2> 
-      <h2> </h2>     
-      <p></p> 
-      <h2>Easily insert standard text into email composer</h2> 
-      <p></p>
-      <h2> </h2> 
-      <h2> </h2>  
-      <h2> </h2>            
+</head>
+
+<body>
+  <div id="innerwrapper">
+    <h1>Successfully installed {addon} {version}.</h1>
+    <h2>Features</h2>
+
+
+
+
+
+    <br><b>Glodaquilla - NG </b>is an extension to Thunderbird which allows to control which accounts or 
+    folders are included in Global Search and Indexing. Enhancing the standard operation, choices for account or 
+    folder inclusion can be inherited/propagated to child folders.
+    <br>
+        Also adds three columns to the Thunderbird message pane that are useful to monitor downloaded messages (in IMAP, for example) 
+        and/or are useful in debugging.
+        <br>
+ 
+    Created by R. Kent James (see bugzilla), updated to TB 60/78+ by Klaus Buecher/opto.<br>
+<br>
+Example: 
+
+    <ul>
+      <li> Display whether message has been fully downloaded (in an extra column, relevant for IMAP)
+        <br /></li>
+ 
+      <li> Local/private spam or draft or temporary folders and subfolders can be in/excluded from indexing and global search
+        <br /></li>
+      <li> Archive folders and subfolders or local copies can be ex/included in indexing and global search<br /></li>
+      <li> Real useful tool to eliminate that nasty indexing from junk and temporary folders (user comment)</li>
+      <li> If you have some IMAP folders with a lot of messages that you do not need to search, 
+        this plugin will make Thunderbird run very very fast (user comment)<br />
+      </li>
+      <li> Display in an extra column whether message is to be indexed ("gloda-dirty")
+        <br /></li>
+        <li> Display in an extra column whether message has been indexed for search (if gloda-id is > 2, it cannot be indexed if = 2)
+          <br /></li>
+      </ul>
+    </p>
+
+    <p>You can report issues at
+      the home page for TB78: <a href='https://github.com/opto/glodaquilla-NG/issues'>Glodaquilla-NG.</a>
+      It is gratefully appreciated if you can support the transfer to TB 78 by a <a href="" id="donate1">donation.</a>
+    </p>
+    <p class="actionlinks">
+      <a id="donate">I want to contribute with a donation</a>
+    </p>
+    </p>
+
+
+
     <p></p>
-    <li>Please prepare a list of shortcuts and replacements in the addon options (tools -> addons)/b></li>
-    <p></p>
-    <p></p>
-    <li>Typing shortcut followed by ctrl-d replaces the shortcut</b></li>
-     <p>Example: br(ctrl-d) expands to best regards</p>
-     <p></p> 
-     
-     <li>Replacements may contain line breaks</b></li>       <p></p>
-     <p></p>
-     <li>Edit old shortcuts/replacements: just click into the cell to edit. On removing focus, the new text is accepted. Save the table.</b></li>
-     <p></p>
-     <li>Setting cursor position: if the replacement text holds an #c, the cursor will be set to that position</b></li>
-     <li>Known issue: if returning to the table, newlines are no longer shown, but they are still applied in composer</b></li>
-     <p></p>    
-      
-  
-  
-     <p></p>    
-     
-     <p></p>
-     <p></p>    
-     <p ></p> 
-     <p></p>
-     <p></p>    
-     <p ></p> 
-     <h2 >Help with a Donation!</h2>
-      
-      <p>This Add-on is not written
-        by a large corporation, nor is it sponsored in any way by Mozilla.
-        </p>
-        
-   
-      <p>
-        In TB 78, Thunderbird internals changed widely. Klaus Buecher/opto has been working to make {addon} fully 
-        functional for Thunderbird 78. At lot of personal time has been put into this. I appreciate if you can support
+    <li><b>Other addons for search, message display, archiving, adding notes, image display:</b></li>
+    <p><b>Expression Search NG</b>: Enhance search capabilities of (quick)search: f:Fred t:John a:yes searches for 
+      all messages from Fred to John with an attachment (and many other search enhancements, see list further down)</p>
+    <p><b>Quicker Quicksearch</b>:  easily search for recipients/domain/subject of highlighted email in quicksearch.</p>
+    <p><b>Nostalgy++</b>: easy archiving/moving of emails to their destination folders,
+      with autocomplete of folder names and rules for suggested folder.
+      Compose window: always display cc or bcc, easy selecting input fields (to, cc, bcc, body, attachments), etc.
+    </p>
+    <p><b>Text insert</b>: Easy inserting standard text. br+ctrl-D converts to best regards. Define your own
+      replacements.
+      After insert, the cursor can be in the middle of the replacement text, to continue writing between a 'hello' and
+      the regards.</p>
+    <p><b>Attachment image viewer</b>: Attachment download dialog shows thumbnail of image. Image viewer with zoom, rotate, flip,
+      slideshow etc. </p>
+    <p><b>XNote++</b>: Add notes to your emails to remind or to plan a reply.
+    <h2>Help with a Donation!</h2>
+
+
+    <p>
+      In TB 78, Thunderbird internals changed widely. Klaus Buecher/opto
+      is making {addon} fully
+      functional again. I appreciate if you can support
       this work by a donation. </p>
     <p> </p>
-        <p> </p>      
-      <div>    </div>
-         <p class="actionlinks">
-        <a id="donate">I want to contribute with a one time donation</a>
-      </p>
-      <p> </p>
-  
-         
-        
+    <p> </p>
+    <div> </div>
+    <p class="actionlinks">
+      <a id="donate">I want to contribute with a donation</a>
+    </p>
+    <p> </p>
 
-    </div>
-  </body>
+    
+    <h3>Feedback, Suggestions, and on-going Development</h3>
+    <p>Klaus Buecher/Opto's Home Page for TB 78+: <a
+        href='https://github.com/opto/expression-search-NG'>expression-search-NG</a></p>
+    <p> </p>
+
+
+
+
+  </div>
+</body>
+
 </html>

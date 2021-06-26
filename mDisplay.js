@@ -1,4 +1,16 @@
 /*
+* License:  see License.txt
+
+* Code  for TB 78 or later: Creative Commons (CC BY-ND 4.0):
+*      Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0) 
+ 
+* Copyright: Klaus Buecher/opto 2021
+* Contributors:  see Changes.txt
+*/
+
+
+
+/*
 var xnote = "";  // k  b\nbbbb\nbbbbbbbbbbbböklllll11111111222222222222222333333333llllcbvvv42vvvvvv";
 var xnoteOrig = "";
 var dateOrig = "";
