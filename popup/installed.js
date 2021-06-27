@@ -13,12 +13,12 @@ addEventListener("click", async (event) => {
 	if (event.target.id.startsWith("donate1")) {
 
 		messenger.windows.openDefaultBrowser("https://www.paypal.com/donate?hosted_button_id=T738XXQGHNR2G");
-	  };
-	  if (event.target.id.startsWith("donate")) {
-	
+	};
+	if (event.target.id.startsWith("donate")) {
+
 		messenger.windows.openDefaultBrowser("https://www.paypal.com/donate?hosted_button_id=T738XXQGHNR2G");
-	  };
-	});
+	};
+});
 
 addEventListener("load", async (event) => {
 	//d;

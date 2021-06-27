@@ -20,7 +20,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
-  <title>Welcome to Glodaquilla-NG: Global Search/Indexing Enhancements/ On Disk Status for IMAP</title>
+  <title>Welcome to Addon-Info/Sync/Compatibility: Retrieving info on your installed addons</title>
   <link rel="stylesheet" href="popup.css" type="text/css">
   <script type="application/javascript" src="installed.js"></script>
 
@@ -35,39 +35,39 @@
 
 
 
-    <br><b>Glodaquilla - NG </b>is an extension to Thunderbird which allows to control which accounts or 
-    folders are included in Global Search and Indexing. Enhancing the standard operation, choices for account or 
-    folder inclusion can be inherited/propagated to child folders.
+    <br><b>Addon-Info/Sync/Compatibility </b>is an extension to Thunderbird which gives info on installed addons and on
+    their compatibility with the next ESR version, TB 91.
     <br>
-        Also adds three columns to the Thunderbird message pane that are useful to monitor downloaded messages (in IMAP, for example) 
-        and/or are useful in debugging.
-        <br>
- 
-    Created by R. Kent James (see bugzilla), updated to TB 60/78+ by Klaus Buecher/opto.<br>
-<br>
-Example: 
+
+
+
+
+    <br>
+    <b>Example: </b>
 
     <ul>
-      <li> Display whether message has been fully downloaded (in an extra column, relevant for IMAP)
-        <br /></li>
- 
-      <li> Local/private spam or draft or temporary folders and subfolders can be in/excluded from indexing and global search
-        <br /></li>
-      <li> Archive folders and subfolders or local copies can be ex/included in indexing and global search<br /></li>
-      <li> Real useful tool to eliminate that nasty indexing from junk and temporary folders (user comment)</li>
-      <li> If you have some IMAP folders with a lot of messages that you do not need to search, 
-        this plugin will make Thunderbird run very very fast (user comment)<br />
+      <li> Display addon info, addon version, addon max version (published on ATN) and addon compatibility in the addon
+        table
+        <br />
       </li>
-      <li> Display in an extra column whether message is to be indexed ("gloda-dirty")
-        <br /></li>
-        <li> Display in an extra column whether message has been indexed for search (if gloda-id is > 2, it cannot be indexed if = 2)
-          <br /></li>
-      </ul>
+
+      <li> Print table of addons
+        <br />
+      </li>
+      <li> Copy list of addons to clipboard<br /></li>
+
+      <li> Sync/Email list of addons to yourself. On receiving, another TB will be able to highlight not installed
+        addons,
+        if <b>{addon}</b> is installed.<br />
+      </li>
+    </ul>
     </p>
 
     <p>You can report issues at
-      the home page for TB78: <a href='https://github.com/opto/glodaquilla-NG/issues'>Glodaquilla-NG.</a>
-      It is gratefully appreciated if you can support the transfer to TB 78 by a <a href="" id="donate1">donation.</a>
+      the home page for TB78: <a
+        href='https://github.com/opto/TB-Addon-Info-Sync-Compatibility/issues'>Addon-Info/Sync/Compatibility.</a>
+      It is gratefully appreciated if you can support the transfer of my addons to TB 91 by a <a href=""
+        id="donate1">donation.</a>
     </p>
     <p class="actionlinks">
       <a id="donate">I want to contribute with a donation</a>
@@ -77,27 +77,33 @@ Example:
 
 
     <p></p>
-    <li><b>Other addons for search, message display, archiving, adding notes, image display:</b></li>
-    <p><b>Expression Search NG</b>: Enhance search capabilities of (quick)search: f:Fred t:John a:yes searches for 
+    <li><b>Other addons for search, message display, (auto)archiving, moving/copying messages, adding notes, image
+        display:</b></li>
+    <p><b>Expression Search NG</b>: Enhance search capabilities of (quick)search: f:Fred t:John a:yes searches for
       all messages from Fred to John with an attachment (and many other search enhancements, see list further down)</p>
-    <p><b>Quicker Quicksearch</b>:  easily search for recipients/domain/subject of highlighted email in quicksearch.</p>
+    <p><b>Quicker Quicksearch</b>: easily search for recipients/domain/subject of highlighted email in quicksearch.</p>
     <p><b>Nostalgy++</b>: easy archiving/moving of emails to their destination folders,
-      with autocomplete of folder names and rules for suggested folder.
+      with autocomplete of folder names and rules for suggested folder. Suggestion of folders for move/copy by
+      statistical observation of previous move operations.
+      Multiple folder search: "<b>in no</b>" finds '<b>In</b>box/Thunderbird/addons/<b>No</b>stalgy' folder with typing
+      of 4 characters, only.
       Compose window: always display cc or bcc, easy selecting input fields (to, cc, bcc, body, attachments), etc.
     </p>
     <p><b>Text insert</b>: Easy inserting standard text. br+ctrl-D converts to best regards. Define your own
       replacements.
       After insert, the cursor can be in the middle of the replacement text, to continue writing between a 'hello' and
       the regards.</p>
-    <p><b>Attachment image viewer</b>: Attachment download dialog shows thumbnail of image. Image viewer with zoom, rotate, flip,
-      slideshow etc. </p>
+    <p><b>Attachment image viewer</b>: Image viewer with zoom, rotate, flip, slideshow etc. Attachment download dialog
+      shows thumbnail of image.
+    </p>
     <p><b>XNote++</b>: Add notes to your emails to remind or to plan a reply.
+      <br>
     <h2>Help with a Donation!</h2>
 
 
     <p>
-      In TB 78, Thunderbird internals changed widely. Klaus Buecher/opto
-      is making {addon} fully
+      In TB 78 and now TB91, Thunderbird internals changed widely. Klaus Buecher/opto
+      is making many addons fully
       functional again. I appreciate if you can support
       this work by a donation. </p>
     <p> </p>
@@ -108,13 +114,9 @@ Example:
     </p>
     <p> </p>
 
-    
     <h3>Feedback, Suggestions, and on-going Development</h3>
     <p>Klaus Buecher/Opto's Home Page for TB 78+: <a
-        href='https://github.com/opto/expression-search-NG'>expression-search-NG</a></p>
-    <p> </p>
-
-
+        href='https://github.com/opto/TB-Addon-Info-Sync-Compatibility/'>Addon-Info/Sync/Compatibility</a></p>
 
 
   </div>
