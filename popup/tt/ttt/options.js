@@ -30,41 +30,6 @@ var addons = [];;
 
 
 
-async function sendMail(event) {
-  let textStr = "";
-  let htmlStr = "<div id = 'addoninfosynccompatibility' >The following addons are installed in your second Thunderbird installation.<br>" +
-    "For the receiver of this email, those addons are marked blue-grey that are not installed.<br>" +
-    "Go to Tools->addons to install them.<br><br></div>";
-
-  //    console.log("table");
-  //    console.log(table.data().toArray());
-  //dataSet = table.data().toArray();
-  let clip = []; //table.data().toArray();
-  clip = table.data().toArray();
-  //    console.log(bgrPage.dataSet);
-  //console.log(clip);
-  //console.log("JSON", JSON.stringify(table.data().toArray()));
-  clip.forEach((el) => {
-    //console.log("el", JSON.stringify(el) + "\n\n"); 
-    textStr += JSON.stringify(el) + "\n\n";//.toString() + "\n");
-    /*
-      htmlStr += ("<br>" + el.url + " (click to display in browser)<br><br><br>" + JSON.stringify(el) + 
-         "\n\n<input type = 'button'  dataatn = '" + el.url + "' addonid = '" + el.id  +"' value = 'add " + el.id + " to Thunderbird in Tools-> Addons' /><br>");
-         console.log("html", htmlStr); //.toString() + "\n");
-    */
-    htmlStr += ("<input type = 'button'  dataatn = '" + el.url + "' addonid = '" + el.id + "' value = 'add " + el.id + " to Thunderbird in Tools-> Addons' /><br>");
-    //   console.log("html", htmlStr); //.toString() + "\n");
-  });
-
-  let htmlTable = document.getElementById("example1").outerHTML;
-  htmlStr += htmlTable;
-
-  //messenger.compose.beginNew({body:textStr, subject:"addon-details in Thunderbird"});
-  messenger.compose.beginNew({ body: htmlStr, isPlainText: false, subject: " Addons installed in Thunderbird - details and sync proposal" });
-
-
-}
-
 
 
 
@@ -145,7 +110,11 @@ function compareVer(a, b) {
 /* */
 
 
+function showOptoAddons () {
 
+  messenger.windows.create({url: "otheraddons.html",  height: 600,  width: 890,  type: "popup"});
+
+}
 
 async function onLoad(event) {
   // console.log("loaded");
@@ -169,6 +138,7 @@ async function onLoad(event) {
     //console.log("raw response", response);
     addon["compatibility"] = "unknown";
     addon["maxversion"] = "unknown";
+    addon["alternative"] =  " ";
     var comps = [], compVers = [];
 
     if (
@@ -206,6 +176,7 @@ async function onLoad(event) {
       //   console.log(versSort);
       addon["maxversion"] = versSort[0].version;
       addon["url"] = versSort[0].url;
+      addon["alternative"] =  "yes";
 
       let data = response.results[0];
       //    console.log(response.results[0].url);
@@ -214,6 +185,7 @@ async function onLoad(event) {
         name: addon.name,
         version: data.version,
         compatibility: data.compatibility.thunderbird.max,
+        alternative: "yes",
         enabled: addon.enabled,
       };
     }
@@ -221,17 +193,16 @@ async function onLoad(event) {
 
     addons.push(addon);
 
+
+
   };
 
 
   bgrPage = await messenger.runtime.getBackgroundPage();
   // if (!bgrPage.dataSet) console.log("onLoad", bgrPage);
-  var clipBtn = document.getElementById("table2Clipboard");
-  clipBtn.addEventListener("click", save2Clip, true);
+  var cBtn = document.getElementById("otherAddons");
+  cBtn.addEventListener("click", showOptoAddons, true);
   //     console.log(clipBtn);
-  var mailBtn = document.getElementById("table2Email");
-  mailBtn.addEventListener("click", sendMail, true);
-  // console.log(mailBtn);
 
   var printBtn = document.getElementById("print");
   printBtn.addEventListener("click", printAddons, true);
@@ -240,6 +211,46 @@ async function onLoad(event) {
 }
 
 document.addEventListener("DOMContentLoaded", onLoad, false);
+
+
+
+
+const createdCell = function (cell, cellData, rowData, rowIndex, colIndex) {
+  let original;
+  // console.log(cell);
+  if (colIndex == 2) {
+    cell.addEventListener('click', function (e) {
+      const row = table.row(e.target.parentElement);
+      //        console.log('Row changed: ', row);
+      //        console.log('Row index: ', rowIndex);
+      bgrPage.dataSet.splice(rowIndex, 1);
+      //        console.log(bgrPage.dataSet);
+      //        console.log(table);
+      row.remove().draw();
+      table.rows().invalidate().draw();
+      // row.invalidate();
+    });
+
+  }
+  if (colIndex == 2) {
+  //  console.log(cell);
+    if (cell.childNodes[0].data !="*")     cell.bgColor = "#fc2c03";//"red";//
+    //cell.style = "{ color:red  !important}";
+    cell.id = "td" + rowIndex + 'c' + colIndex;
+    currentCell = cell;
+    cell.setAttribute('row', rowIndex);
+    cell.setAttribute('column', colIndex);
+  };
+  if (colIndex != 2) {
+    //    cell.setAttribute('class', 'editable');
+
+    //    cell.setAttribute('contenteditable', true)
+    //   cell.setAttribute('spellcheck', false);
+    //cell.setAttribute('style', "{  white-space: normal;}");
+
+
+  }
+}
 
 
 
@@ -265,11 +276,17 @@ async function showTable() {
         "order": [[1, "desc"]],
         "dom": 'rtip',
 
+        columnDefs: [{
+          targets: '_all',
+          createdCell: createdCell
+        }],
+
         columns: [
           { title: "Addon name", width: "20%", data: "name" },
-          { title: "Active", width: "10%", data: "enabled" },
+          { title: "Active", width: "7%", data: "enabled" },
           { title: "TB 91 compatible", width: "10%", data: "compatibility" },
-          { title: "Installed version", data: "version" },
+          { title: "Alternative", width: "10%", data: "alternative" },
+                    { title: "Installed version", data: "version" },
           { title: "Highest version on ATN", data: "maxversion" },
           {
             title: "Description",
@@ -280,6 +297,9 @@ async function showTable() {
 
       }
     );
+
+    let lod = document.getElementById("loading");
+    lod.hidden = true;
 
 
     // console.log (table);

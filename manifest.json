@@ -33,6 +33,6 @@
 
       
     "permissions": [
-        "management", "activeTab", "tabs", "tabHide", "clipboardWrite" , "messagesModify", "notifications"
+        "management", "alarms", "activeTab", "tabs", "tabHide", "clipboardWrite" , "messagesModify", "notifications"
     ]
 }

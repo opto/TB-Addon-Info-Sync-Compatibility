@@ -22,7 +22,7 @@ icon by <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Fre
 
 */
 
-
+let DELAY = 2*2; //24 * 60;
 
 // landing windows.
 messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
@@ -32,14 +32,14 @@ messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
 			{
 				const url = messenger.runtime.getURL("popup/installed.html");
 				//await browser.tabs.create({ url });
-				await messenger.windows.create({ url, type: "popup", height: 780, width: 1190, });
+//				await messenger.windows.create({ url, type: "popup", height: 780, width: 1190, });
 			}
 			break;
 		case "update":
 			{
 				const url = messenger.runtime.getURL("popup/update.html");
 				//await browser.tabs.create({ url });
-				await messenger.windows.create({ url, type: "popup", height: 780, width: 1190, });
+//				await messenger.windows.create({ url, type: "popup", height: 780, width: 1190, });
 			}
 			break;
 		// see below
@@ -47,9 +47,57 @@ messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
 });
 /**/
 
+browser.alarms.create("checkAddons", {periodInMinutes: DELAY});
+browser.alarms.onAlarm.addListener(checkAddons);
+
+async function dataToJSON(data) {
+  let entries = [];
+  
+  let lines = data.split(/\r\n|\n/);
+  let i = 0;
+
+  do
+   {
+    let entry = {};
+    while (i < lines.length) {
+      i++;
+      let line = lines[i-1].trim();
+
+      // End of Block
+      if (line.startsWith("---")) {
+        break;
+      }
+      // Skip comments.
+      if (line.startsWith("#")) {
+        continue;
+      }
+      let parts = line.split(":");
+      let key = parts.shift().trim();
+      if (key) {
+        let value = parts.join(":").trim();
+        entry[key] = value;
+      }
+    }
+
+    // Add found entry.
+    if (Object.keys(entry).length > 0) {
+      entries.push(entry);
+    }
+  } while (i < lines.length);
+  
+  return entries;
+}
+
+
+
+async function loadData() {
+	let url = "https://raw.githubusercontent.com/thundernest/extension-finder/master/data.yaml"
+	return fetch(url).then(r => r.text()).then(dataToJSON);
+  }
 
 
 async function checkAddons() {
+	console.log("running checkAddons", DELAY);
 	let iOK = 0, iInCompatible = 0, iDisabledIncompatible = 0, sIncompatibleNames = [], sDisabledIncompatibleNames = [];
 	messenger.browserAction.setBadgeText({ text: "…" });
 	messenger.browserAction.setBadgeBackgroundColor({ color: "blue" });
@@ -138,7 +186,7 @@ async function checkAddons() {
 
 
 
-
+/*
 	var addonNotification = "addon-notification"
 	messenger.notifications.create(addonNotification, {
 		"type": "basic",
@@ -148,7 +196,7 @@ async function checkAddons() {
 
 	});
 
-
+*/
 	;
 
 
@@ -189,5 +237,20 @@ messenger.messageDisplayScripts.register({
 	//,
 	//css: [{ file: "/src/message-content-styles.css" }],
 });
+
+
+
+async function getAlternatives() {
+	let alternative = [];
+	let altvs = await loadData();
+	console.log(altvs);
+	let addons = await messenger.management.getAll();
+	console.log("raw addons", addons);
+	obj = altvs.filter(o => o.u_id === "gContactSync1@pirules.net");
+
+	console.log("add", obj);
+}
+
+window.addEventListener("load", getAlternatives	);
 
 //window.addEventListener("load", checkAddons);
