@@ -1,7 +1,7 @@
 /*
  * License:  see License.txt
 
- * Code  for TB 78 or later: Creative Commons (CC BY-ND 4.0):
+ * Code  for TB 68 or later: Creative Commons (CC BY-ND 4.0):
  *      Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0) 
  
  * Copyright: Klaus Buecher/opto 2021
@@ -11,24 +11,54 @@
 
 var bgrPage = null;
 
-//let dataSet = null;
-//let dataSet = [  ["1", "2", "3"], ["w", "e", "X"]];
-let dataSet = [{ "a": "1", "b": "2", "c": "3" }, { "a": "w", "b": "e", "c": "X" }];
-
-let currRow = 0, currCol = 0;
-
-
-/*
-bgrPage =  messenger.runtime.getBackgroundPage();
-window.setTimeout( ()=>{let zzz=0;}, 300);
-if (!bgrPage.dataSet) console.log("no bgr page after start delay", bgrPage);
-dataSet = bgrPage.dataSet;
-*/
 
 
 var addons = [];;
 
 
+
+
+async function loadData() {
+  let url = "https://raw.githubusercontent.com/thundernest/extension-finder/master/data.yaml"
+  return fetch(url).then(r => r.text()).then(dataToJSON);
+}
+
+async function dataToJSON(data) {
+  let entries = [];
+
+  let lines = data.split(/\r\n|\n/);
+  let i = 0;
+
+  do {
+    let entry = {};
+    while (i < lines.length) {
+      i++;
+      let line = lines[i - 1].trim();
+
+      // End of Block
+      if (line.startsWith("---")) {
+        break;
+      }
+      // Skip comments.
+      if (line.startsWith("#")) {
+        continue;
+      }
+      let parts = line.split(":");
+      let key = parts.shift().trim();
+      if (key) {
+        let value = parts.join(":").trim();
+        entry[key] = value;
+      }
+    }
+
+    // Add found entry.
+    if (Object.keys(entry).length > 0) {
+      entries.push(entry);
+    }
+  } while (i < lines.length);
+
+  return entries;
+}
 
 
 
@@ -40,44 +70,6 @@ async function printAddons(event) {
 
 
 
-async function save2Clip(event) {
-  let textStr = "";
-
-  //    console.log("table");
-  //    console.log(table.data().toArray());
-  //dataSet = table.data().toArray();
-  document.designMode = true;
-  document.contentEditable = true;
-  /*console.log("doc",document);
-  document.execCommand("strikeThrough");
-  document.execCommand("selectAll");
-  
-  let tab = document.getElementById("example1");
-  tab.select();
-  document.execCommand("copy");
-  */
-  ///*
-  //clipboard unformatted (table with tab)
-  var range = document.createRange();
-  range.selectNode(document.getElementById("example1"));
-  window.getSelection().removeAllRanges(); // clear current selection
-  window.getSelection().addRange(range); // to select text
-  document.execCommand("copy");
-  window.getSelection().removeAllRanges();// to deselect
-  //clipboard unformatted end
-  //*/
-  /*
-  let clip = []; //table.data().toArray();
-  clip = table.data().toArray();
-//    console.log(bgrPage.dataSet);
-console.log(clip);
-console.log("JSON", JSON.stringify(table.data().toArray()));
-clip.forEach( (el) => { console.log(JSON.stringify(el) + "\n\n"); textStr += JSON.stringify(el) + "\n\n";//.toString() + "\n");
-});
- 
-navigator.clipboard.writeText(textStr);
-*/
-}
 
 
 //versioncompare
@@ -110,9 +102,10 @@ function compareVer(a, b) {
 /* */
 
 
-function showOptoAddons () {
+function showOptoAddons() {
 
-  messenger.windows.create({url: "otheraddons.html",  height: 600,  width: 890,  type: "popup"});
+  messenger.tabs.create({ url: "otheraddons.html" });
+  //  messenger.windows.create({url: "otheraddons.html",  height: 600,  width: 890,  type: "popup"});
 
 }
 
@@ -121,7 +114,14 @@ async function onLoad(event) {
   // console.log("versions","1.10.1b1", "1.10.1b2", compareVer("1.10.1b1", "1.10.1b2"));
   //addons
   let results = await messenger.management.getAll();
+  let alternatives = await loadData();
   // console.log("raw addons", addons);
+
+
+  var cBtn = document.getElementById("otherAddons");
+  cBtn.addEventListener("click", showOptoAddons, true);
+  //     console.log(clipBtn);
+
 
 
   for (let addon of results) {
@@ -138,7 +138,9 @@ async function onLoad(event) {
     //console.log("raw response", response);
     addon["compatibility"] = "unknown";
     addon["maxversion"] = "unknown";
-    addon["alternative"] =  " ";
+    let addonAltern = alternatives.filter(o => o.u_id === addon.id);
+    if (addonAltern.length) addon["alternative"] = "<a href = 'https://extension-finder.thunderbird.net/?id=" + addon.id + "' id = 'altaddon' >more info</a>";
+    else addon["alternative"] = "";
     var comps = [], compVers = [];
 
     if (
@@ -176,7 +178,6 @@ async function onLoad(event) {
       //   console.log(versSort);
       addon["maxversion"] = versSort[0].version;
       addon["url"] = versSort[0].url;
-      addon["alternative"] =  "yes";
 
       let data = response.results[0];
       //    console.log(response.results[0].url);
@@ -200,9 +201,6 @@ async function onLoad(event) {
 
   bgrPage = await messenger.runtime.getBackgroundPage();
   // if (!bgrPage.dataSet) console.log("onLoad", bgrPage);
-  var cBtn = document.getElementById("otherAddons");
-  cBtn.addEventListener("click", showOptoAddons, true);
-  //     console.log(clipBtn);
 
   var printBtn = document.getElementById("print");
   printBtn.addEventListener("click", printAddons, true);
@@ -218,38 +216,17 @@ document.addEventListener("DOMContentLoaded", onLoad, false);
 const createdCell = function (cell, cellData, rowData, rowIndex, colIndex) {
   let original;
   // console.log(cell);
+ 
   if (colIndex == 2) {
-    cell.addEventListener('click', function (e) {
-      const row = table.row(e.target.parentElement);
-      //        console.log('Row changed: ', row);
-      //        console.log('Row index: ', rowIndex);
-      bgrPage.dataSet.splice(rowIndex, 1);
-      //        console.log(bgrPage.dataSet);
-      //        console.log(table);
-      row.remove().draw();
-      table.rows().invalidate().draw();
-      // row.invalidate();
-    });
-
-  }
-  if (colIndex == 2) {
-  //  console.log(cell);
-    if (cell.childNodes[0].data !="*")     cell.bgColor = "#fc2c03";//"red";//
+    //  console.log(cell);
+    if (cell.childNodes[0].data != "*") cell.bgColor = "#fc2c03";//"red";//
     //cell.style = "{ color:red  !important}";
     cell.id = "td" + rowIndex + 'c' + colIndex;
     currentCell = cell;
     cell.setAttribute('row', rowIndex);
     cell.setAttribute('column', colIndex);
   };
-  if (colIndex != 2) {
-    //    cell.setAttribute('class', 'editable');
-
-    //    cell.setAttribute('contenteditable', true)
-    //   cell.setAttribute('spellcheck', false);
-    //cell.setAttribute('style', "{  white-space: normal;}");
-
-
-  }
+ 
 }
 
 
@@ -286,7 +263,7 @@ async function showTable() {
           { title: "Active", width: "7%", data: "enabled" },
           { title: "TB 91 compatible", width: "10%", data: "compatibility" },
           { title: "Alternative", width: "10%", data: "alternative" },
-                    { title: "Installed version", data: "version" },
+          { title: "Installed version", data: "version" },
           { title: "Highest version on ATN", data: "maxversion" },
           {
             title: "Description",

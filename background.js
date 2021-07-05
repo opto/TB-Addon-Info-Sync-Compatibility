@@ -1,7 +1,7 @@
 /*
 * License:  see License.txt
 
-* Code  for TB 78 or later: Creative Commons (CC BY-ND 4.0):
+* Code  for TB 68 or later: Creative Commons (CC BY-ND 4.0):
 *      Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0) 
  
 * Copyright: Klaus Buecher/opto 2021
@@ -22,7 +22,7 @@ icon by <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Fre
 
 */
 
-let DELAY = 2*2; //24 * 60;
+
 
 // landing windows.
 messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
@@ -47,57 +47,17 @@ messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
 });
 /**/
 
-browser.alarms.create("checkAddons", {periodInMinutes: DELAY});
-browser.alarms.onAlarm.addListener(checkAddons);
+window.setInterval(checkAddons, 24*60*1000);
 
-async function dataToJSON(data) {
-  let entries = [];
-  
-  let lines = data.split(/\r\n|\n/);
-  let i = 0;
-
-  do
-   {
-    let entry = {};
-    while (i < lines.length) {
-      i++;
-      let line = lines[i-1].trim();
-
-      // End of Block
-      if (line.startsWith("---")) {
-        break;
-      }
-      // Skip comments.
-      if (line.startsWith("#")) {
-        continue;
-      }
-      let parts = line.split(":");
-      let key = parts.shift().trim();
-      if (key) {
-        let value = parts.join(":").trim();
-        entry[key] = value;
-      }
-    }
-
-    // Add found entry.
-    if (Object.keys(entry).length > 0) {
-      entries.push(entry);
-    }
-  } while (i < lines.length);
-  
-  return entries;
+function openOptions() {
+//	console.log("open options");
+	messenger.tabs.create({url:"/popup/tt/ttt/options.html"});
+//	messenger.runtime.openOptionsPage();
 }
-
-
-
-async function loadData() {
-	let url = "https://raw.githubusercontent.com/thundernest/extension-finder/master/data.yaml"
-	return fetch(url).then(r => r.text()).then(dataToJSON);
-  }
-
+messenger.browserAction.onClicked.addListener(openOptions);
 
 async function checkAddons() {
-	console.log("running checkAddons", DELAY);
+	//console.log("running checkAddons");
 	let iOK = 0, iInCompatible = 0, iDisabledIncompatible = 0, sIncompatibleNames = [], sDisabledIncompatibleNames = [];
 	messenger.browserAction.setBadgeText({ text: "…" });
 	messenger.browserAction.setBadgeBackgroundColor({ color: "blue" });
@@ -180,9 +140,9 @@ async function checkAddons() {
 	resTitle = resTitle + "Deactivated addons, incompatible: " + sDisabledIncompatibleNames +
 		"\n\nMore info at Tools->Addons / option page of this addon";
 	//	console.log("nmes", sIncompatibleNames, sDisabledIncompatibleNames);
-	messenger.browserAction.setTitle({ title: resTitle });
+//	messenger.browserAction.setTitle({ title: resTitle });
+//
 
-	//	messenger.runtime.openOptionsPage();
 
 
 
@@ -207,50 +167,7 @@ async function checkAddons() {
 messenger.browserAction.onClicked.addListener(checkAddons);
 
 
-messenger.runtime.onMessage.addListener(
-	async function (request, sender, sendResponse) {
-		//chrome.extension.getBackgroundPage().console.log('resp.type');
-		//		console.log(sender.tab ?
-		//		"from a content script:" + sender.tab.url :
-		//		"from the extension");
-		if (request.task == "openURL") {//(request.greeting == "hello") {
-			messenger.tabs.create({ url: request.greeting });
-			//	sendResponse({farewell: "goodbye"});
-		}
-		if (request.task == "getAddons") {//(request.greeting == "hello") {
-			//			let results  = await messenger.management.getAll();
-			//			console.log("raw addons", results);
-			//					  sendResponse({farewell: "results"});
-			let results = await messenger.management.getAll();
-			//	console.log("res", results);
-			let ids = [];
-			for (var i = 0; i < results.length; i++) {
-				ids.push(results[i]["id"]);
-			};
-			//console.log("ids", ids, JSON.stringify(ids));
-			return Promise.resolve({ response: JSON.stringify(ids) });//"response from background script"});
-		}
-	});
-
-messenger.messageDisplayScripts.register({
-	js: [{ file: "mDisplay.js" }]
-	//,
-	//css: [{ file: "/src/message-content-styles.css" }],
-});
 
 
 
-async function getAlternatives() {
-	let alternative = [];
-	let altvs = await loadData();
-	console.log(altvs);
-	let addons = await messenger.management.getAll();
-	console.log("raw addons", addons);
-	obj = altvs.filter(o => o.u_id === "gContactSync1@pirules.net");
-
-	console.log("add", obj);
-}
-
-window.addEventListener("load", getAlternatives	);
-
-//window.addEventListener("load", checkAddons);
+window.addEventListener("load", checkAddons);

@@ -124,3 +124,6 @@ h2 {
 h3 {
   font-size: 13pt;
 }
+
+a 
+  { text-decoration: underline; }
