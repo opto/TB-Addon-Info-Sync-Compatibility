@@ -8,10 +8,7 @@
  * Copyright: Klaus Buecher/opto 2021
  * Contributors:  see Changes.txt
  */
-
-
 -->
-
 
 <!DOCTYPE html>
 <html>
@@ -44,33 +41,25 @@
 	<div class="container" id="addoncompat.check_210624">
 		<section>
 			<h2> <img src="/skin/puzzle-piece32.png" height="32" width="32">
-				Addon  compatibility check for the next ESR (TB 91)</h2>
+				Add-on compatibility check for the next ESR (TB 91)</h2>
 
 			<div>
-
-				<p>The table shows the installed addons and their description, as well as their compatibility with the next ESR, TB
-					91.</p>
-				<p>If a * is given, the addon is either compatible with TB 91, or the addon author did not specify any
-					max version of Thunderbird.</p>
-				<p>If the highest addon version on ATN is more recent than your installed version, then it is either
-					incompatible with your version of Thunderbird,
-					or its installation might be blocked. I personally had Kaspersky blocking addon updates.</p>
-
-
+				<p>The table shows the installed add-ons and their description, as well as their compatibility information.</p>
+				<p>If <code>*</code> is printed in the <code>Compatibility</code> column, the add-on is either compatible with TB 91,
+					or the add-on author did not specify any max version of Thunderbird.</p>
+				<p>If the highest add-on version on ATN is more recent than your installed version, then it is either
+					incompatible with your current version of Thunderbird,
+					or its installation might be blocked. I personally had Kaspersky blocking add-on updates.</p>
 				<div>
-
-
-					<input type="button" id="print" value="print" class="center-block btn_bck" />
-					<input type="button" id="otherAddons" value="other addons by Opto"  class="center-block btn_bck" />
-
+					<input type="button" id="print" value="Print" class="center-block btn_bck" />
+					<input type="button" id="otherAddons" value="View other add-ons by Opto"  class="center-block btn_bck" />
 				</div>
 			</div>
 			<br>
 
 			<div class="demo-html"></div>
-			<p  id = "loading" >	Loading ....</p>
+			<p id="loading">Loading ....</p>
 			<table id="example1" class="display" style="width:100%">
-			
 			</table>
 	</div>
 	</section>
@@ -78,11 +67,9 @@
 	<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a
 			href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 	</div>
-	<!--	
-	<script src="assets/prism.js"></script>
-	<script src="assets/app.js"></script>
--->
-
+	<p>
+		<small>To reduce load on the queried servers, the data used in this view is updated only every 24h.<br>Last update: <span id="lastUpdate"></span></small>
+	</p>
 </body>
 
 </html>
