@@ -155,7 +155,7 @@ async function queryAddonData(addon, alternativeData) {
 		};
 		
 		// Find max version and take its compat info.
-		compVers.sort((a, b) => { compareVer(a.version, b.version) });
+		compVers.sort((a, b) =>  compareVer(b.version, a.version) );
 		info.maxVersion = compVers[0].version;
 		info.maxCompatibility = compVers[0].compatibility;
 		info.maxUrl = `<a href="${compVers[0].url}">${compVers[0].version}</a>`;
