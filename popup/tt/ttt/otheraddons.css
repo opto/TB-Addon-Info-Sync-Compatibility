@@ -44,6 +44,15 @@ ul.actions {
 }
 
 
+
+.actionlink  {
+  background-color: white;
+  box-shadow: 2px 2px 2px rgba(50,50,50,0.5);
+  color: black;
+  padding: 0px 0px;
+  cursor: pointer;
+}
+
 .actionlinks div {
   background-color: darkred;
   box-shadow: 5px 5px 5px rgba(50,50,50,0.5);
